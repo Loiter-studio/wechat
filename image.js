@@ -1,8 +1,7 @@
-//声明所需依赖库的对象
-var	fs = require('fs'),
+var fs = require('fs'),
     http = require('http'),
-		Log = require('log'),
-		log = new Log('debug', fs.createWriteStream('my.log'));
+	Log = require('log'),
+	log = new Log('debug', fs.createWriteStream('my.log'));
 	
 var image = {
 	url: '',
@@ -25,8 +24,8 @@ var image = {
         res.on('data', function (data) {//图片加载到内存变量
             imageData += data;
         }).on('end', function () {//加载完毕保存图片
-            fs.writeFile("wechat/thumbs/"+ name +".jpg", imageData, 'binary', function (err) {
-                if (err) log.error("Failed to save image");
+            fs.writeFile("wechat/thumbs/"+ name , imageData, 'binary', function (err) {
+                if (err) log.error("Failed to save image" + err);
             });
         });
     });
@@ -39,8 +38,6 @@ var image = {
 }
 
 module.exports = image;
-/*
-var url = "http://202.112.150.126/index.php?client=libcode&isbn=/cover";
-image.url = url;
-image.save();
-*/
+//var url = "http://202.112.150.126/index.php?client=libcode&isbn=/cover";
+//image.url = url;
+//image.save();

@@ -43,6 +43,9 @@ var wechat = {
 					html += data;
 			}).on('end', function() {
 					var rt_obj = Array();
+					var rt_length = $(html).find(".items").length;
+					var rt_counter = 1;
+
 					$(html).find(".items").each(function(){
 						var _this = this;
 						var books = {
@@ -52,6 +55,7 @@ var wechat = {
 						};
 						
 						var itemtitle = $(_this).find(".itemtitle");
+						//console.log(itemtitle);
 						var title = itemtitle.text();
 						var url = itemtitle.find("a").attr('href');
 						
@@ -70,8 +74,10 @@ var wechat = {
 						books.picurl = picurl;
 						books.title = title;
 						rt_obj.push(books);
+						if(rt_counter ++ == 10)
+							_res.reply(rt_obj);
 					});
-					// res.reply(rt_obj);
+//					//_res.reply(rt_obj);
 					console.log(rt_obj);
 			});  
 		});
@@ -130,5 +136,5 @@ var wechat = {
 		});
 	}
 }
-
-wechat.fetch("鲁迅", "");
+module.exports = wechat.fetch;
+//wechat.fetch("book", "");
