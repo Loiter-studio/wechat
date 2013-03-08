@@ -60,7 +60,7 @@ var wechat = {
 						var url = itemtitle.find("a").attr('href');
 						
 						image.url = S($(_this).find("img").attr("src")).trim().s;
-						var picurl = "www.lib.sysujwxt.com/thumbs/" + image.save();
+						var picurl = "http://lib.sysujwxt.com/" + image.save();
 						var pin = '';
 						
 						var str = $(this).find('table').text().split('\n');
