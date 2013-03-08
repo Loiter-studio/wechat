@@ -32,9 +32,7 @@ var options = {
     path: '/F?func=find-b&request=' ,
 };
 
-function fetch(book_name, res){
-	var _res = res;
-
+function fetch(book_name){
 	options.path = options.path + urlReplace(book_name);
 	var rlt = "";
 	var html = '';  
@@ -73,10 +71,11 @@ function fetch(book_name, res){
 
 					var tmpNumber = str.split(' ');
 					tmpNumber = tmpNumber[0];
-					var number = tmpNumber.split("）");	
-					number = number[1];
-					
-					rt_obj.bookNum[book_count] = number; 
+					var school = tmpNumber[0] + tmpNumber[1] + tmpNumber[2];
+					var reg = /[\u4e00-\u9fa5]*/;
+					console.log(school + tmpNumber.replace(/[\u4e00-\u9fa5]*/, ""));
+					rt_obj.bookNum[book_count] = school + str.replace(/[\u4e00-\u9fa5]*/, "");
+
 					str = name + "\n" + str;
 					rlt = rlt + str + "\n";
 					options.path = "/F?func=find-b&request=";
@@ -84,17 +83,15 @@ function fetch(book_name, res){
 				});
 
 				if(count != 0)
-					rt_obj = 1;
+					rt_obj.code = 1;
 				return rt_obj;
-
 		 });  
 	});
 }
-
 app.use(connect.query());
 app.use('/wechat', wechat('iLibrary', wechat.text(function (message, req, res, next) {
-			 
-			fetch(message.Content, res);
+			var result = fetch(message.Content);
+			res.reply(result);
 		})
 	)
 );
