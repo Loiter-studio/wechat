@@ -40,6 +40,11 @@ app.post("/wechat", wechat('iLibrary', wechat.text(function (message, req, res, 
 		fetch(message.Content , res);
 	})
 ));
+
+app.get('/test/:url', function(req, res){
+	console.log(req.params.url);
+});
+
 app.get('/:url', function(req, res){
 	//console.log(req.params.image_url);
 	var pathname=__dirname + "/thumbs/" + url.parse(req.params.url).pathname;

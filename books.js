@@ -59,7 +59,9 @@ var wechat = {
 						//console.log(itemtitle);
 						var title = itemtitle.text();
 						var url = itemtitle.find("a").attr('href');
-						
+						url = url.substring(0, 28)+url.substring(85, url.length-11);
+						console.log(url);
+
 						image.url = S($(_this).find("img").attr("src")).trim().s;
 						var picurl = "http://lib.sysujwxt.com/" + image.save();
 						var pin = '';
