@@ -36,7 +36,8 @@ app.configure(function(){
 });
 
 app.post("/wechat", wechat('iLibrary', wechat.text(function (message, req, res, next) {
-		fetch("book", res);
+		//res.reply(message.Content);
+		fetch(message.Content , res);
 	})
 ));
 app.get('/:url', function(req, res){

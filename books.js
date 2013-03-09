@@ -20,7 +20,7 @@ var transfer = {};
 	transfer["="] = "%3D";
 
 var wechat = {
-	escape: function(book_name){
+	escape_character: function(book_name){
 		for(var c in transfer){
 			book_name = S(book_name).replaceAll(c, transfer[c]).s;
 		}
@@ -34,8 +34,9 @@ var wechat = {
 				port: 8991,  
 				path: '/F?func=find-b&request=' ,
 		};
-		options.path += _this.escape(book_name);
+		options.path += wechat.escape_character(book_name);
 		//Data structure
+		//_res.reply(options.path);
 		
 		var html = '';
 		http.get(options, function(res) {  
