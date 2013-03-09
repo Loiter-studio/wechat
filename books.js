@@ -71,10 +71,9 @@ var wechat = {
 						}
 						title = title + " " + pin;
 						
-						pin = wechat.escape_character(pin);
 						var url = itemtitle.find("a").attr('href');
-						url = "http://lib.sysujwxt.com/detail/" + title + "&" + pin + "&" + image_name + url.substring(86, url.length-11);
-						console.log(url);	
+						url = "http://lib.sysujwxt.com/detail/" + title + "&" + image_name + url.substring(86, url.length-11);
+						//console.log(url);	
 						books.url = url;
 						books.picurl = picurl;
 						books.title = title;
@@ -90,16 +89,18 @@ var wechat = {
 	detail: function(url, res){
 		var _res = res;
 		var _this = this;
+		var book = {};
 		var options = {  
 				host: '202.116.64.108',  
 				port: 8991,
 				path: '/F?' + url ,
 		};
+		
 		var arr = url.split("&");
-		var title = arr[0];
-		var pin = arr[1];
+		book.title = arr[0];
+		book.pin = "";
 		// For image, we should try another method
-		var image_name = arr[2];
+		book.image_name = arr[1];
 		
 		var html = '';
 		http.get(options, function(res) {  
@@ -109,18 +110,22 @@ var wechat = {
 				var td = $(html).find("div#details2 td");
 				var size = td.length;
 				if(size > 0){
-					var price = $.trim($(td[3]).children("a").text().split(":")[1]);
-					var publish = $.trim($(td[7]).children("a").text());
-					var summary = "";
+					var isbn_price = $(td[3]).children("a").text().split(":");
+					book.isbn = $.trim(isbn_price[0]);
+					book.price = $.trim(isbn_price[1]);
+					book.publish = $.trim($(td[7]).children("a").text());
+					book.summary = "";
 					if( $.trim($(td[12]).text()) == "摘要")
-						summary = $.trim($(td[13]).text());
+						book.summary = $.trim($(td[13]).text());
 					else if( $.trim($(td[14]).text()) == "摘要")
-						summary = $.trim($(td[15]).text());
+						book.summary = $.trim($(td[15]).text());
 					else if( $.trim($(td[16]).text()) == "摘要")
-						summary = $.trim($(td[17]).text());
+						book.summary = $.trim($(td[17]).text());
 					else if( $.trim($(td[18]).text()) == "摘要")
-						summary = $.trim($(td[19]).text());
-						
+						book.summary = $.trim($(td[19]).text());
+					
+					if($.trim($(td[size-6]).text()) == "馆藏地:索书号")
+						book.pin = $.trim($(td[size-5]).text().split(":")[1]);
 					// Get book status
 					var status_url = $(td[size-3]).children("a").attr("href").split("?")[1];
 					var status_options = {  
@@ -137,21 +142,19 @@ var wechat = {
 							var tmp_status = $(status_html).find(".tr1~tr");
 							var tmp_counter = 1;
 							tmp_status.each(function(){
-								var book = {};
+								var single = {};
 								$(this).children("td");
-								book.type = $($(this).children("td")[1]).text();
-								book.status = $($(this).children("td")[2]).text();
-								book.rt_date = $($(this).children("td")[3]).text()
-								book.location = $($(this).children("td")[5]).text();
-								status.push(book);
+								
+								single.type = $($(this).children("td")[1]).text();
+								single.status = $($(this).children("td")[2]).text();
+								single.rt_date = $($(this).children("td")[3]).text()
+								single.location = $($(this).children("td")[5]).text();
+								status.push(single);
 								// Till here all data get successfully
 								if(tmp_counter++ == tmp_status.length){
 									// status title pin image_name price publish summary 
-									console.log(title);
-									console.log(image_name);
-									console.log(price);
-									console.log(summary);
-									console.log(status);
+									book.status = status;
+									console.log(book);
 								}
 								//_res.end(status_html);
 							});
