@@ -1,0 +1,55 @@
+body{
+	padding:75px 20px 0px 48px;
+	margin: 0;
+	max-width:1000px;
+}
+div,p{
+	overflow:hidden;
+	height:auto;
+}
+#left{
+	float:left;
+}
+#right{
+	width:60%;
+	float:left;
+	/*height:407px;*/
+}
+img {
+	width:277px;
+	height:407px;
+	margin:0px 50px 0px 0px;
+}
+p{
+	display:block;
+	padding:0px 0px 0px 30px;
+	font-size:38px;
+	font-family:"SimHei";
+	font-weight:bolder;
+}
+#a{
+	margin:0px;
+}
+#a,#b{
+	border-left:#458994 solid 30px;
+}
+#c{
+	border-left:#6f5334 solid 30px;
+}
+#d,#e{
+	border-left:#757947 solid 30px;
+}
+.container{
+	clear:both;
+	margin-bottom:50px;
+}
+#g{
+	font-size:28px;
+	border-left:#fff5f7 solid 30px;
+	text-indent:2.5em;
+	width:90%;
+}
+.f{
+	border-left:#b2c8bb solid 30px;
+}
+	
