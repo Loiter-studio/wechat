@@ -42,6 +42,7 @@ app.post("/wechat", wechat('iLibrary', wechat.text(function (message, req, res, 
 
 app.get('/detail/:url', function(req, res){
 	var url = req.params.url;
+	console.log(req.params.url);
 	//res.end(url);
 	book.detail(url, res);
 	//console.log(req.params.url);

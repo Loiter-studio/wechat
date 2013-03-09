@@ -71,9 +71,10 @@ var wechat = {
 						}
 						title = title + " " + pin;
 						
+						pin = wechat.escape_character(pin);
 						var url = itemtitle.find("a").attr('href');
 						url = "http://lib.sysujwxt.com/detail/" + title + "&" + pin + "&" + image_name + url.substring(86, url.length-11);
-						
+						console.log(url);	
 						books.url = url;
 						books.picurl = picurl;
 						books.title = title;
