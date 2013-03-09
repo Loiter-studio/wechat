@@ -9,8 +9,8 @@
 
 <body>
 	<div class="container" id="info">
-				<div id="left">
-        </div>
+		<div id="left">
+        	</div>
         
         <div id="right">
         </div>
@@ -33,7 +33,7 @@ $.ajax({
 		var data = eval("(" + data + ")"); 
 		console.log(data);
 		
-		$("#left").append('<img src="/' + data.image_name + '" />');
+		$("#left").append('<img src="/thumbs/' + data.image_name + '" />');
 		$("#right").append('<p id="a">' + data.pin + '</p>');
 		$("#right").append('<p id="b">' + data.author + '</p>');
 		$("#right").append('<p id="c">' + data.publish + '</p>');

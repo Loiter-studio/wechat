@@ -57,7 +57,7 @@ app.get('/css/:url', function(req, res){
 	res.sendfile(__dirname + '/view/' + req.params.url);
 });
 
-app.get('/:url', function(req, res){
+app.get('/thumbs/:url', function(req, res){
 	//console.log(req.params.image_url);
 	var pathname=__dirname + "/thumbs/" + url.parse(req.params.url).pathname;
 	console.log(pathname);

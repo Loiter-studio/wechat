@@ -57,10 +57,13 @@ var wechat = {
 						
 						var itemtitle = $(_this).find(".itemtitle");
 						//console.log(itemtitle);
-						var title = itemtitle.text();
+						var title = $.trim(itemtitle.text());
 						image.url = S($(_this).find("img").attr("src")).trim().s;
 						var image_name = image.save();
-						var picurl = "http://lib.sysujwxt.com/" + image_name;
+						var picurl = "http://lib.sysujwxt.com/thumbs/" + image_name;
+						
+						var url = itemtitle.find("a").attr('href');
+						url = "http://lib.sysujwxt.com/detail/" + title + "&" + image_name + "&" + url.substring(86, url.length-11);
 						
 						var pin = '';
 						
@@ -71,8 +74,6 @@ var wechat = {
 						}
 						title = title + " " + pin;
 						
-						var url = itemtitle.find("a").attr('href');
-						url = "http://lib.sysujwxt.com/detail/" + title + "&" + image_name + url.substring(86, url.length-11);
 						//console.log(url);	
 						books.url = url;
 						books.picurl = picurl;
