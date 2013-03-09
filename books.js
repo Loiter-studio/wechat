@@ -58,13 +58,10 @@ var wechat = {
 						var itemtitle = $(_this).find(".itemtitle");
 						//console.log(itemtitle);
 						var title = itemtitle.text();
-						var url = itemtitle.find("a").attr('href');
-						//url = url.substring(0, 28)+url.substring(85, url.length-11);
-						url = "http://lib.sysujwxt.com/detail/"+url.substring(86, url.length-11);
-						//console.log(url);
-
 						image.url = S($(_this).find("img").attr("src")).trim().s;
-						var picurl = "http://lib.sysujwxt.com/" + image.save();
+						var image_name = image.save();
+						var picurl = "http://lib.sysujwxt.com/" + image_name;
+						
 						var pin = '';
 						
 						var str = $(this).find('table').text().split('\n');
@@ -73,6 +70,9 @@ var wechat = {
 							pin = str[1].replace(/[^x00-xff]*/, "");
 						}
 						title = title + " " + pin;
+						
+						var url = itemtitle.find("a").attr('href');
+						url = "http://lib.sysujwxt.com/detail/" + title + "&" + pin + "&" + image_name + url.substring(86, url.length-11);
 						
 						books.url = url;
 						books.picurl = picurl;
@@ -86,59 +86,81 @@ var wechat = {
 			});  
 		});
 	},
-	detail: function(book_name){
+	detail: function(url, res){
+		var _res = res;
 		var _this = this;
 		var options = {  
 				host: '202.116.64.108',  
-				port: 8991,  
-				path: '/F?func=find-b&request=' ,
+				port: 8991,
+				path: '/F?' + url ,
 		};
-		options.path += _this.escape(book_name);
-		
-		//Data structure
-		var books = {
-			bookurl: Array(),
-			picurl: Array(),
-			title: Array(),
-			pin: Array()
-		};
+		var arr = url.split("&");
+		var title = arr[0];
+		var pin = arr[1];
+		// For image, we should try another method
+		var image_name = arr[2];
 		
 		var html = '';
 		http.get(options, function(res) {  
 			res.on('data', function(data) {  
-					html += data;
+				html += data;
 			}).on('end', function() {
-					$(html).find(".items").each(function(){
-						var _this = this;
-						var itemtitle = $(_this).find(".itemtitle");
-						var title = itemtitle.text();
-						var bookurl = itemtitle.find("a").attr('href');
-						var cover = S($(_this).find("img").attr("src")).trim().s;
-						var pin = '';
-						var author = '';
-						var publish = '';
-						var storage = '';
-						var detail = '';
+				var td = $(html).find("div#details2 td");
+				var size = td.length;
+				if(size > 0){
+					var price = $.trim($(td[3]).children("a").text().split(":")[1]);
+					var publish = $.trim($(td[7]).children("a").text());
+					var summary = "";
+					if( $.trim($(td[12]).text()) == "摘要")
+						summary = $.trim($(td[13]).text());
+					else if( $.trim($(td[14]).text()) == "摘要")
+						summary = $.trim($(td[15]).text());
+					else if( $.trim($(td[16]).text()) == "摘要")
+						summary = $.trim($(td[17]).text());
+					else if( $.trim($(td[18]).text()) == "摘要")
+						summary = $.trim($(td[19]).text());
 						
-						var str = $(this).find('table').text().split('\n');
-						if(str.length >= 6){
-							// All operation concern to array, should validate
-							pin = str[1].replace(/[^x00-xff]*/, "");
-							author = str[1].split(/[0-9a-zA-Z]/)[0];
-							author = author.substring(3, author.length-4);
-							publish = str[2];
-							
-							str = str[6].split("',this)");
-							str = S(str).replaceAll("  ", "").s;
-							str = str.split("\" onmouseout");
-							
-							detail = str[0];
-							storage = str[1].split("400)\"")[1];
-						}
-					});
-			});  
+					// Get book status
+					var status_url = $(td[size-3]).children("a").attr("href").split("?")[1];
+					var status_options = {  
+							host: '202.116.64.108',  
+							port: 8991,
+							path: '/F?' + status_url ,
+					};
+					var status_html = '';
+					var status = Array();
+					http.get(status_options, function(res) {  
+						res.on('data', function(data) {  
+							status_html += data;
+						}).on('end', function() {
+							var tmp_status = $(status_html).find(".tr1~tr");
+							var tmp_counter = 1;
+							tmp_status.each(function(){
+								var book = {};
+								$(this).children("td");
+								book.type = $($(this).children("td")[1]).text();
+								book.status = $($(this).children("td")[2]).text();
+								book.rt_date = $($(this).children("td")[3]).text()
+								book.location = $($(this).children("td")[5]).text();
+								status.push(book);
+								// Till here all data get successfully
+								if(tmp_counter++ == tmp_status.length){
+									// status title pin image_name price publish summary 
+									console.log(title);
+									console.log(image_name);
+									console.log(price);
+									console.log(summary);
+									console.log(status);
+								}
+								//_res.end(status_html);
+							});
+						});
+					});	
+					_res.end(html);
+				}
+					_res.end("no");
+			});
 		});
 	}
 }
 module.exports = wechat;
-//wechat.fetch("book", "");
