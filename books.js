@@ -113,7 +113,15 @@ var wechat = {
 					var isbn_price = $(td[3]).children("a").text().split(":");
 					book.isbn = $.trim(isbn_price[0]);
 					book.price = $.trim(isbn_price[1]);
-					book.publish = $.trim($(td[7]).children("a").text());
+					var author_publish = $.trim($(td[7]).children("a").text());
+					
+					book.publish = "";
+					book.author = "";
+					if(author_publish){
+						author_publish = author_publish.split("/");
+						book.publish = author_publish[0];
+						book.author = author_publish[1];
+					}
 					book.summary = "";
 					if( $.trim($(td[12]).text()) == "摘要")
 						book.summary = $.trim($(td[13]).text());
@@ -153,16 +161,21 @@ var wechat = {
 								// Till here all data get successfully
 								if(tmp_counter++ == tmp_status.length){
 									// status title pin image_name price publish summary 
+									book.code = "success";
 									book.status = status;
 									console.log(book);
+									_res.end(JSON.stringify(book));
 								}
 								//_res.end(status_html);
 							});
 						});
 					});	
-					_res.end(html);
+					//_res.end(html);
 				}
-					_res.end("no");
+				else{
+					book.code = "failed";
+					_res.end(JSON.stringify(book));
+				}
 			});
 		});
 	}

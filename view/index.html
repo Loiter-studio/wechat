@@ -3,41 +3,48 @@
 <head>
 <meta charset="utf-8">
 <title>book</title>
-<link href="style.css" rel="stylesheet" type="text/css">
+<link href="/css/style.css" rel="stylesheet" type="text/css">
+<script src="/css/jq.mobi.js" type="text/javascript"></script>
 </head>
 
 <body>
 	<div class="container" id="info">
-    	<div id="left">
-        	
+				<div id="left">
         </div>
         
         <div id="right">
-        	<p id="a">TP393.081/3</p>
-            <p id="b">靳丛林</p>
-            <p id="c">北京 : 北京大学出版社,2012</p>
-            <p id="d">CNY98.00 (含光盘)</p>
-            <p id="e">978-7-302-27360-8</p>
         </div>
     </div>
     
-     <div class="container" id="status">
-     	<p class="f">光盘 外借本 在架上 南校区中文新书库（1楼）</p>
-        <p class="f">光盘 外借本 在架上 南校区中文新书库（1楼）</p>
-        <p class="f">光盘 外借本 在架上 南校区中文新书库（1楼）</p>
-        <p class="f">光盘 外借本 在架上 南校区中文新书库（1楼）</p>
+		<div class="container" id="status">
     </div>
     
     <div class="container" id="content">
-    	<div id="g">
-        	<p>日本学者竹内好对中国作家鲁迅的研究一直是中日思想界和文学
-                界不可绕过的重大课题，遂有“竹内鲁迅”之说。《培文书系·文学
-                与当代史丛书：竹内好的鲁迅研究》力图在描述日本鲁迅研究的历史
-                基础上鉴别、比较、发掘“竹内鲁迅”的独特内涵。同时，《培文书
-                系·文学与当代史丛书：竹内好的鲁迅研究》的理论创新还体现在如
-                何看待异国知识分子借鲁迅来反 ( 更多 )
-              </p>
-        </div>
+    	<div id="g" id="summary">
+			</div>
     </div>
 </body>
 </html>
+<script>
+$.ajax({
+	type: 'post',
+	url: window.location.pathname,
+	success: function(data){
+		var data = eval("(" + data + ")"); 
+		console.log(data);
+		
+		$("#left").append('<img src="/' + data.image_name + '" />');
+		$("#right").append('<p id="a">' + data.pin + '</p>');
+		$("#right").append('<p id="b">' + data.author + '</p>');
+		$("#right").append('<p id="c">' + data.publish + '</p>');
+		$("#right").append('<p id="d">' + data.price + '</p>');
+		$("#right").append('<p id="d">' + data.isbn + '</p>');
+		
+		var status = data.status;
+		for(var i = 0; i < status.length; i++){
+			$("#status").append('<p class="f">'+status[i].status+' '+status[i].rt_date+' '+status[i].location+' '+status[i].type+'</p>');
+		}
+		$("#summary").append('<p>'+data.summary+'</p>');
+	}
+});
+</script>
