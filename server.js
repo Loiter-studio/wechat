@@ -7,8 +7,7 @@ var wechat = require('wechat'),
 		express = require('express'),
 		fs = require('fs'),
     request = require('request'),	
-		//connect = require('connect'),
-		fetch = require('./books');
+		book = require('./books');
 /*
 var app = connect();
 
@@ -37,12 +36,15 @@ app.configure(function(){
 
 app.post("/wechat", wechat('iLibrary', wechat.text(function (message, req, res, next) {
 		//res.reply(message.Content);
-		fetch(message.Content , res);
+		book.fetch(message.Content , res);
 	})
 ));
 
-app.get('/test/:url', function(req, res){
-	console.log(req.params.url);
+app.get('/detail/:url', function(req, res){
+	var url = req.params.url;
+	res.end(url);
+	//book.detail();
+	//console.log(req.params.url);
 });
 
 app.get('/:url', function(req, res){
