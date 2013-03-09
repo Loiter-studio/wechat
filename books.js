@@ -46,8 +46,12 @@ var wechat = {
 					var rt_obj = Array();
 					var rt_length = $(html).find(".items").length;
 					var rt_counter = 1;
-
-					$(html).find(".items").each(function(){
+					var items = $(html).find(".items");
+					// 错误处理
+					if(items.length == 0){
+						_res.reply("没搜到书哟~换个名字呗");
+					}
+					items.each(function(){
 						var _this = this;
 						var books = {
 							url: '',
@@ -63,8 +67,11 @@ var wechat = {
 						var picurl = "http://lib.sysujwxt.com/thumbs/" + image_name;
 						
 						var url = itemtitle.find("a").attr('href');
-						url = "http://lib.sysujwxt.com/detail/" + title + "&" + image_name + "&" + url.substring(86, url.length-11);
+						url = url.substring(86, url.length-11).split("&");
+						var set_number = url[1].split("=")[1];
+						var set_entry = url[2].split("=")[1];
 						
+						url = "http://lib.sysujwxt.com/detail/" + title + "-" + image_name + "-" + set_number + "-" + set_entry;
 						var pin = '';
 						
 						var str = $(this).find('table').text().split('\n');
@@ -74,7 +81,6 @@ var wechat = {
 						}
 						title = title + " " + pin;
 						
-						//console.log(url);	
 						books.url = url;
 						books.picurl = picurl;
 						books.title = title;
@@ -82,8 +88,6 @@ var wechat = {
 						if(rt_counter ++ == 10)
 							_res.reply(rt_obj);
 					});
-//					//_res.reply(rt_obj);
-					console.log(rt_obj);
 			});  
 		});
 	},
@@ -91,13 +95,15 @@ var wechat = {
 		var _res = res;
 		var _this = this;
 		var book = {};
+		
+		var arr = url.split("?")[0].split("-");
 		var options = {  
 				host: '202.116.64.108',  
 				port: 8991,
-				path: '/F?' + url ,
+				//func=full-set-set&set_number=101579&set_entry=000001
+				path: '/F?func=full-set-set&set_number=' + arr[2] + '&set_entry=' + arr[3],
 		};
 		
-		var arr = url.split("&");
 		book.title = arr[0];
 		book.pin = "";
 		// For image, we should try another method
@@ -182,3 +188,4 @@ var wechat = {
 	}
 }
 module.exports = wechat;
+//wechat.detail("Python%E5%9F%BA%E7%A1%80%E6%95%99%E7%A8%8B-746e42358778e8a6ef93656132d7439e.jpg-101487-000010?sukey=b50423ad109ac255073790da7e9b5fa158df1fcdda963f3a241b45f044aadd34e3dfec297aff5f2a60cb283d6f4a74ca15894aac0d37ab68", "");
