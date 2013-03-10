@@ -42,7 +42,7 @@ process.on('uncaughtException', function (err) {
 app.post("/wechat", wechat('iLibrary', wechat.text(function (message, req, res, next) {
 		//res.reply(message.Content);
 		console.log("wechat in");
-		if(message.Content == 'hello2bizuser')
+		if(message.Content == 'Hello2BizUser')
 			res.reply("欢迎使用，请输入想要查找的关键字.如果您在使用过程中出现了bug,烦请您用文字或截图反馈给我们.p.s暂不支持语音搜索w");
 		else
 			book.fetch(message.Content , res);
