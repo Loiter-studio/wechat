@@ -115,7 +115,8 @@ var wechat = {
 			}).on('end', function() {
 				var td = $(html).find("div#details2 td");
 				var size = td.length;
-				if(size > 0){	
+				if(size > 0){
+				/*
 					var isbn_price = $(html).find("td.td1:contains(ISBN)").next().text().split(":");
 					book.isbn = $.trim(isbn_price[0]);
 					book.price = $.trim(isbn_price[1]);
@@ -125,9 +126,35 @@ var wechat = {
 					book.publish = $.trim($(html).find("td.td1:contains(出版发行)").next().text());
 					book.author = $.trim(title[1].split("\n")[0]);
 					book.summary = $.trim($(html).find("td.td1:contains(摘要)").next().text());
-					book.pin = $.trim($(html).find("td.td1:contains(索书号)").next().text().split("\n")[1].split(":")[1]);
-					
+					book.pin = $.trim($(html).find("td.td1:contains(索书号)").next().text().split("\n")[1].split(":")[1]);	
 					var status_url = $(html).find("td.td1:contains(所有单册借阅状态) a").attr("href");
+				*/
+					var isbn_price = $(td[3]).children("a").text().split(":");
+					book.isbn = $.trim(isbn_price[0]);
+					book.price = $.trim(isbn_price[1]);
+					var author_publish = $.trim($(td[7]).children("a").text());
+					book.publish = $.trim($($(html).find("td.td1:contains(出版)")[1]).text());	
+					book.author = "";
+					if(author_publish){
+						author_publish = author_publish.split("/");
+						book.title = author_publish[0];
+						book.author = author_publish[1];
+					}
+					book.summary = "";
+					if( $.trim($(td[12]).text()) == "摘要")
+						book.summary = $.trim($(td[13]).text());
+					else if( $.trim($(td[14]).text()) == "摘要")
+						book.summary = $.trim($(td[15]).text());
+					else if( $.trim($(td[16]).text()) == "摘要")
+						book.summary = $.trim($(td[17]).text());
+					else if( $.trim($(td[18]).text()) == "摘要")
+						book.summary = $.trim($(td[19]).text());
+					if($.trim($(td[size-6]).text()) == "馆藏地:索书号")
+						book.pin = $.trim($(td[size-5]).text().split(":")[1]);
+					// Get book status
+					var status_url = $(td[size-3]).children("a").attr("href");
+				
+				// ======== roll back beacuse of latency
 					var status_html = '';
 					var status = Array();
 					http.get(status_url, function(res) {  
