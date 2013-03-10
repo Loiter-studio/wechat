@@ -10,6 +10,7 @@
 <body>
 	<div class="container" id="info">
 		<div id="left">
+			<img src="/css/default.png" />
         	</div>
         
         <div id="right">
@@ -33,7 +34,12 @@ $.ajax({
 		var data = eval("(" + data + ")"); 
 		console.log(data);
 		
-		$("#left").append('<img src="/thumbs/' + data.image_name + '" />');
+		var new_image = $('<img style="display:hidden" src="/thumbs/' + data.image_name + '" />');
+		new_image.load(function(){
+			$("#left img").remove();
+			$("#left").append(new_image);
+		});
+
 		$("#right").append('<p id="a">' + data.pin + '</p>');
 		$("#right").append('<p id="b">' + data.author + '</p>');
 		$("#right").append('<p id="c">' + data.publish + '</p>');

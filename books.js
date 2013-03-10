@@ -71,7 +71,7 @@ var wechat = {
 						var set_number = url[1].split("=")[1];
 						var set_entry = url[2].split("=")[1];
 						
-						url = "http://lib.sysujwxt.com/detail/" + title + "-" + image_name + "-" + set_number + "-" + set_entry;
+						url = "http://lib.sysujwxt.com/detail/" + "empty" + "-" + image_name + "-" + set_number + "-" + set_entry;
 						var pin = '';
 						
 						var str = $(this).find('table').text().split('\n');
@@ -92,6 +92,7 @@ var wechat = {
 		});
 	},
 	detail: function(url, res){
+		console.log(url);
 		var _res = res;
 		var _this = this;
 		var book = {};
@@ -121,12 +122,11 @@ var wechat = {
 					book.isbn = $.trim(isbn_price[0]);
 					book.price = $.trim(isbn_price[1]);
 					var author_publish = $.trim($(td[7]).children("a").text());
-					
-					book.publish = "";
+					book.publish = $.trim($($(html).find("td.td1:contains(出版)")[1]).text());	
 					book.author = "";
 					if(author_publish){
 						author_publish = author_publish.split("/");
-						book.publish = author_publish[0];
+						book.title = author_publish[0];
 						book.author = author_publish[1];
 					}
 					book.summary = "";
@@ -170,7 +170,7 @@ var wechat = {
 									// status title pin image_name price publish summary 
 									book.code = "success";
 									book.status = status;
-									console.log(book);
+									//console.log(book);
 									_res.end(JSON.stringify(book));
 								}
 								//_res.end(status_html);
