@@ -52,9 +52,6 @@ var wechat = {
 					if(items.length == 0){
 						_res.reply("没搜到书哟~换个名字呗");
 					}
-					else if(item == 'hello2bizuser'){
-						_res.reply("欢迎使用iLibrary，请输入您想查找的内容。暂不支持语音查找w");
-					}
 					items.each(function(){
 						var _this = this;
 						var books = {
