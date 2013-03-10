@@ -47,19 +47,21 @@ app.post("/wechat", wechat('iLibrary', wechat.text(function (message, req, res, 
 ));
 
 app.get('/detail/:url', function(req, res){
+	//console.log("detail:get:"+req.params.url);
 	var url = req.params.url;
 	res.sendfile(__dirname + '/view/index.html');
 });
 app.post('/detail/:url', function(req, res){
+	//console.log("detail:post:"+req.params.url);
 	book.detail(req.params.url, res);
 });
 
-app.get('/css/:url', function(req, res){	
+app.get('/css/:url', function(req, res){
 	res.sendfile(__dirname + '/view/' + req.params.url);
 });
 
 app.get('/thumbs/:url', function(req, res){
-	//console.log(req.params.image_url);
+	//console.log("thumbs:"+req.params.url);
 	var pathname=__dirname + "/thumbs/" + url.parse(req.params.url).pathname;
 	//console.log(pathname);
 	if (path.extname(pathname)=="") {
