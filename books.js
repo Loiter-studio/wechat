@@ -48,6 +48,7 @@ var wechat = {
 					var rt_counter = 1;
 					var items = $(html).find(".items");
 					// 错误处理
+					console.log(items.length);
 					if(items.length == 0){
 						_res.reply("没搜到书哟~换个名字呗");
 					}
@@ -121,6 +122,7 @@ var wechat = {
 					var title = $(html).find("td.td1:contains(题名)").next().text();
 					title = title.split("/");
 					book.title = $.trim(title[0]);
+					book.publish = $.trim($(html).find("td.td1:contains(出版发行)").next().text());
 					book.author = $.trim(title[1].split("\n")[0]);
 					book.summary = $.trim($(html).find("td.td1:contains(摘要)").next().text());
 					book.pin = $.trim($(html).find("td.td1:contains(索书号)").next().text().split("\n")[1].split(":")[1]);
@@ -146,8 +148,7 @@ var wechat = {
 									// status title pin image_name price publish summary 
 									book.code = "success";
 									book.status = status;
-									console.log(book);
-									//_res.end(JSON.stringify(book));
+									_res.end(JSON.stringify(book));
 								}
 								//_res.end(status_html);
 							});
@@ -163,5 +164,3 @@ var wechat = {
 	}
 }
 module.exports = wechat;
-//wechat.fetch('苏轼', '');103202&set_entry=000001&
-//wechat.detail("Python%E5%9F%BA%E7%A1%80%E6%95%99%E7%A8%8B-746e42358778e8a6ef93656132d7439e.jpg-101487-000010?sukey=b50423ad109ac255073790da7e9b5fa158df1fcdda963f3a241b45f044aadd34e3dfec297aff5f2a60cb283d6f4a74ca15894aac0d37ab68", "");

@@ -34,8 +34,14 @@ app.configure(function(){
 	app.use(express.static(path.join(__dirname, "wechat/thumbs")));
 });
 
+process.on('uncaughtException', function (err) {
+	  console.log('Caught exception: ' + err);
+});
+
+
 app.post("/wechat", wechat('iLibrary', wechat.text(function (message, req, res, next) {
 		//res.reply(message.Content);
+		console.log("wechat in");
 		book.fetch(message.Content , res);
 	})
 ));
@@ -43,13 +49,8 @@ app.post("/wechat", wechat('iLibrary', wechat.text(function (message, req, res, 
 app.get('/detail/:url', function(req, res){
 	var url = req.params.url;
 	res.sendfile(__dirname + '/view/index.html');
-	//console.log(req.params.url);
-	//res.end(url);
-	//book.detail(url, res);
-	//console.log(req.params.url);
 });
 app.post('/detail/:url', function(req, res){
-	console.log(req.params.url);
 	book.detail(req.params.url, res);
 });
 
@@ -60,7 +61,7 @@ app.get('/css/:url', function(req, res){
 app.get('/thumbs/:url', function(req, res){
 	//console.log(req.params.image_url);
 	var pathname=__dirname + "/thumbs/" + url.parse(req.params.url).pathname;
-	console.log(pathname);
+	//console.log(pathname);
 	if (path.extname(pathname)=="") {
 		pathname+="/";
 	}
@@ -96,8 +97,11 @@ app.get('/thumbs/:url', function(req, res){
 				res.end(data);
 			});
 		} else {
-			res.writeHead(404, {"Content-Type": "text/html"});
-			res.end("<h1>404 Not Found</h1>");
+			res.writeHead(404, {"Content-Type": "image/png"});
+			fs.readFile(__dirname + "/view/default.png", function(err, data){
+				res.end(data);
+			});
+			console.log("not found");
 		}
 	});
 });
