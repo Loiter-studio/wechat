@@ -1,4 +1,4 @@
-var wechat = require('wechat'),
+锘縱ar wechat = require('wechat'),
 		http = require('http'),
 		path = require('path'),
 		$ = require('jquery'),
@@ -43,7 +43,7 @@ app.post("/wechat", wechat('iLibrary', wechat.text(function (message, req, res, 
 		//res.reply(message.Content);
 		console.log("wechat in");
 		if(message.Content == 'hello2bizuser')
-			res.reply("欢迎使用，请输入想要查找的关键字，暂不支持语音搜索w");
+			res.reply("娆㈣繋浣跨敤锛岃杈撳叆鎯宠鏌ユ壘鐨勫叧閿瓧.濡傛灉鎮ㄥ湪浣跨敤杩囩▼涓嚭鐜颁簡bug,鐑﹁鎮ㄧ敤鏂囧瓧鎴栨埅鍥惧弽棣堢粰鎴戜滑.p.s鏆備笉鏀寔璇煶鎼滅储w");
 		else
 			book.fetch(message.Content , res);
 	})
