@@ -141,6 +141,7 @@ var wechat = {
 						book.author = author_publish[1];
 					}
 					book.summary = $.trim($(html).find("td.td1:contains(摘要)").next().text());
+					//console.log($.trim($(html).find("td.td1:contains(摘要)").next().text()));
 					/*
 					if( $.trim($(td[12]).text()) == "摘要")
 						book.summary = $.trim($(td[13]).text());

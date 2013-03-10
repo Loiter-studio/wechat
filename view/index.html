@@ -21,7 +21,7 @@
     </div>
     
     <div class="container" id="content">
-    	<div id="g" id="summary">
+    	<div id="g">
 			</div>
     </div>
 </body>
@@ -50,7 +50,7 @@ $.ajax({
 		for(var i = 0; i < status.length; i++){
 			$("#status").append('<p class="f">'+status[i].status+' '+status[i].rt_date+' '+status[i].location+' '+status[i].type+'</p>');
 		}
-		$("#summary").append('<p>'+data.summary+'</p>');
+		$("#g").append('<p>'+data.summary+'</p>');
 	}
 });
 </script>
