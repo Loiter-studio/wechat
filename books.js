@@ -140,7 +140,8 @@ var wechat = {
 						book.title = author_publish[0];
 						book.author = author_publish[1];
 					}
-					book.summary = "";
+					book.summary = $.trim($(html).find("td.td1:contains(摘要)").next().text());
+					/*
 					if( $.trim($(td[12]).text()) == "摘要")
 						book.summary = $.trim($(td[13]).text());
 					else if( $.trim($(td[14]).text()) == "摘要")
@@ -149,6 +150,7 @@ var wechat = {
 						book.summary = $.trim($(td[17]).text());
 					else if( $.trim($(td[18]).text()) == "摘要")
 						book.summary = $.trim($(td[19]).text());
+					*/
 					if($.trim($(td[size-6]).text()) == "馆藏地:索书号")
 						book.pin = $.trim($(td[size-5]).text().split(":")[1]);
 					// Get book status
