@@ -22,12 +22,12 @@ var sessionManagement = {
 			}
 
 		}
-		return false;
+		return 1000;
 	},
 	saveNewSession : function(userName, bookSession){
 		var index = sessionManagement.getIndexOfUser(userName);
 		//console.log(index);
-		if(index != false){
+		if(index != 1000){
 			sessions[index].bookSession = bookSession;
 			sessions[index].userId = userName;
 			sessions[index].crashTime = sessionManagement.getCurrentTime() + 20*60*1000;
@@ -53,15 +53,15 @@ var sessionManagement = {
 	},
 	saveNextPage: function(userName , bookSession){
 		var index = sessionManagement.getIndexOfUser(userName);
-		if(index != false){
-			sessions[index].pageId ++;
+		if(index != 1000){
+			sessions[index].pageId +=1;
 		}
 	},
 
 	getBookSession : function(userName){
 		var index = sessionManagement.getIndexOfUser(userName);
 		//console.log(index);
-		if( index >= 0){
+		if( index != 1000){
 			if(sessionManagement.getCurrentTime() >= sessions[index].crashTime)
 				return false;
 			else return sessions[index];

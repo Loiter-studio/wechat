@@ -62,7 +62,7 @@ var wechat = {
 				//console.log("过期");
 				_res.reply("图书馆会话过期咯，请从新输入查询书目再试试哦~亲");
 		}
-		console.log(options);
+		//console.log(options);
 		//end
 	//	options.path = '/F/T1YE4KJ1XVEYR9HBEBNYY18DJKP3SKHSNEQIALLIERRCKNXGV5?func=short-jump&jump=11';
 		
@@ -73,7 +73,7 @@ var wechat = {
 			}).on('end', function() {
 					var rt_obj = Array();
 					var rt_length = $(html).find(".items").length;
-					//var rt_counter = 1;
+					var rt_counter = 1;
 					var items = $(html).find(".items");
 					// 错误处理
 					if(items.length == 0){
@@ -122,11 +122,13 @@ var wechat = {
 						books.picurl = picurl;
 						books.title = title;
 						rt_obj.push(books);
-						//if(rt_counter ++ == 10)
+						if(rt_counter ++ == rt_length)
+							_res.reply(rt_obj);
 							//console.log(rt_obj);
+
 							
 					});
-						_res.reply(rt_obj);
+						//_res.reply(rt_obj);
 					//console.log(rt_obj);
 
 			});  
@@ -238,12 +240,11 @@ var wechat = {
 }
 module.exports = wechat;
 
-
 /*
 wechat.fetch("11", "python", "");
 var t = 0;
 setInterval(function(){
-	if(t ++ == 0){
+	if(t ++ <= 1){
 		wechat.fetch("11", "下一页", "");
 		console.log("delay");
 	}
