@@ -102,6 +102,7 @@ var wechat = {
 				//func=full-set-set&set_number=101579&set_entry=000001
 				path: '/F?func=full-set-set&set_number=' + arr[2] + '&set_entry=' + arr[3],
 		};
+		console.log(options);
 		
 		book.title = arr[0];
 		book.pin = "";
