@@ -1,7 +1,8 @@
 var http = require('http'),
 		$ = require('jquery'),
 		S = require('string'),
-		image = require('./image');
+		image = require('./image'),
+		session = require('./session');
 		
 
 /*
@@ -26,7 +27,18 @@ var wechat = {
 		}
 		return book_name;
 	},
-	fetch: function(book_name, res){
+	getSessionFromHtml : function(html){
+			var items = $(html).find("#header");
+			var tmpSession = items.find("a").attr("href");
+			//console.log(tmpSession);
+			tmpSession = tmpSession.split('/');
+			tmpSession = tmpSession[4].split('-');
+			return tmpSession[0];
+			//console.log(tmpSession[0]);
+		
+			
+	},
+	fetch: function(fromUserName , book_name, res){
 		var _res = res;
 		var _this = this;
 		var options = {  
@@ -37,6 +49,25 @@ var wechat = {
 		options.path += wechat.escape_character(book_name);
 		//Data structure
 		//_res.reply(options.path);
+
+		/*
+			wei add
+		*/
+		var isNextPage = false;
+		if (book_name == '下一页') {
+			isNextPage = true;
+			var theBookSession = session.getBookSession(fromUserName);
+			//console.log(theBookSession);
+			if(theBookSession != false)
+			{
+				options.path = '/F/'+ theBookSession.bookSession + '?func=short-jump&jump='+(theBookSession.pageId*10+1);
+				console.log(options.path);
+			}
+			else
+				//console.log("过期");
+				_res.reply("图书馆会话过期咯，请从新输入查询书目再试试哦~亲");
+		}
+		//end
 		
 		var html = '';
 		http.get(options, function(res) {  
@@ -45,12 +76,23 @@ var wechat = {
 			}).on('end', function() {
 					var rt_obj = Array();
 					var rt_length = $(html).find(".items").length;
-					var rt_counter = 1;
+					//var rt_counter = 1;
 					var items = $(html).find(".items");
 					// 错误处理
+
 					console.log(items.length);
 					if(items.length == 0){
-						_res.reply("没搜到书哟~换个名字呗");
+						console.log("没有书名");
+						//_res.reply("没搜到书哟~换个名字呗");
+					}
+					var tmpBookSession = wechat.getSessionFromHtml(html);
+					//console.log(isNextPage);
+					if(isNextPage){
+							session.saveNextPage(fromUserName , tmpBookSession);
+					}
+					else{
+					//	console.log(fromUserName);
+						session.saveNewSession(fromUserName, tmpBookSession);
 					}
 					items.each(function(){
 						var _this = this;
@@ -59,9 +101,11 @@ var wechat = {
 							picurl: '',
 							title: '',
 						};
+
 						
 						var itemtitle = $(_this).find(".itemtitle");
 						var title = $.trim(itemtitle.text());
+
 						image.url = $.trim($(_this).find("img").attr("src"));
 						var image_name = image.save();
 						var picurl = "http://lib.sysujwxt.com/thumbs/" + image_name;
@@ -84,9 +128,12 @@ var wechat = {
 						books.picurl = picurl;
 						books.title = title;
 						rt_obj.push(books);
-						if(rt_counter ++ == 10)
-							_res.reply(rt_obj);
+						//if(rt_counter ++ == 10)
+							//console.log(rt_obj);
+							
 					});
+						_res.reply(rt_obj);
+						//console.log(rt_obj);
 			});  
 		});
 	},

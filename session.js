@@ -25,6 +25,7 @@ var sessionManagement = {
 	},
 	saveNewSession : function(userName, bookSession){
 		var index = sessionManagement.getIndexOfUser(userName);
+		console.log(index);
 		if(index != false){
 			sessions[index].bookSession = bookSession;
 			sessions[index].userId = userName;
@@ -47,6 +48,8 @@ var sessionManagement = {
 								pageId : 1});
 
 		}
+		for(var i = 0 ; i < sessions.length ; i++)
+			console.log(sessions[i].userId + '+' +sessions[i].bookSession);
 	},
 	saveNextPage: function(userName , bookSession){
 		var index = sessionManagement.getIndexOfUser(userName);
@@ -57,6 +60,7 @@ var sessionManagement = {
 
 	getBookSession : function(userName){
 		var index = sessionManagement.getIndexOfUser(userName);
+		console.log(index);
 		if( index != false){
 			if(sessionManagement.getCurrentTime() >= sessions[index].crashTime)
 				return false;
