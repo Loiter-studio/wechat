@@ -30,7 +30,7 @@ var sessionManagement = {
 		if(index != 1000){
 			sessions[index].bookSession = bookSession;
 			sessions[index].userId = userName;
-			sessions[index].crashTime = sessionManagement.getCurrentTime() + 20*60*1000;
+			sessions[index].crashTime = sessionManagement.getCurrentTime() + 10*60*1000;
 			sessions[index].pageId = 1;
 		}
 		else{
@@ -39,13 +39,13 @@ var sessionManagement = {
 				var exchangeIndex  = Math.floor(Math.random()*1000);
 				sessions[exchangeIndex].bookSession = bookSession;
 				sessions[exchangeIndex].userId = userName;
-				sessions[exchangeIndex].crashTime = sessionManagement.getCurrentTime() + 20*60*1000;
+				sessions[exchangeIndex].crashTime = sessionManagement.getCurrentTime() + 10*60*1000;
 				sessions[exchangeIndex].pageId = 1;
 			}
 
 			else sessions.push({userId : userName ,
 								bookSession :  bookSession,
-								crashTime : sessionManagement.getCurrentTime() + 20*60*100,
+								crashTime : sessionManagement.getCurrentTime() + 10*60*100,
 								pageId : 1});
 
 		}
