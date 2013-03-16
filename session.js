@@ -17,15 +17,16 @@ var sessionManagement = {
 	{
 		for(var i = 0 ; i < sessions.length ; i++)
 		{
-			if(sessions[i].userId == userName)
+			if(sessions[i].userId == userName){
 				return i;
+			}
 
 		}
 		return false;
 	},
 	saveNewSession : function(userName, bookSession){
 		var index = sessionManagement.getIndexOfUser(userName);
-		console.log(index);
+		//console.log(index);
 		if(index != false){
 			sessions[index].bookSession = bookSession;
 			sessions[index].userId = userName;
@@ -48,8 +49,7 @@ var sessionManagement = {
 								pageId : 1});
 
 		}
-		for(var i = 0 ; i < sessions.length ; i++)
-			console.log(sessions[i].userId + '+' +sessions[i].bookSession);
+		
 	},
 	saveNextPage: function(userName , bookSession){
 		var index = sessionManagement.getIndexOfUser(userName);
@@ -60,8 +60,8 @@ var sessionManagement = {
 
 	getBookSession : function(userName){
 		var index = sessionManagement.getIndexOfUser(userName);
-		console.log(index);
-		if( index != false){
+		//console.log(index);
+		if( index >= 0){
 			if(sessionManagement.getCurrentTime() >= sessions[index].crashTime)
 				return false;
 			else return sessions[index];
@@ -70,6 +70,16 @@ var sessionManagement = {
 			return false;
 		}
 
+	},
+	testLogSession : function(){
+		/*
+		for(var i = 0 ; i < sessions.length ; i++){
+			console.log("session" + i);
+			console.log(sessions[i].userId + '+' +sessions[i].bookSession);
+		}
+		
+		*/
+		console.log(sessions);	
 	}
 
 }

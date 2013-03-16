@@ -30,13 +30,10 @@ var wechat = {
 	getSessionFromHtml : function(html){
 			var items = $(html).find("#header");
 			var tmpSession = items.find("a").attr("href");
-			//console.log(tmpSession);
 			tmpSession = tmpSession.split('/');
 			tmpSession = tmpSession[4].split('-');
-			return tmpSession[0];
 			//console.log(tmpSession[0]);
-		
-			
+			return tmpSession[0];
 	},
 	fetch: function(fromUserName , book_name, res){
 		var _res = res;
@@ -49,7 +46,6 @@ var wechat = {
 		options.path += wechat.escape_character(book_name);
 		//Data structure
 		//_res.reply(options.path);
-
 		/*
 			wei add
 		*/
@@ -58,16 +54,17 @@ var wechat = {
 			isNextPage = true;
 			var theBookSession = session.getBookSession(fromUserName);
 			//console.log(theBookSession);
-			if(theBookSession != false)
+			if(theBookSession)
 			{
 				options.path = '/F/'+ theBookSession.bookSession + '?func=short-jump&jump='+(theBookSession.pageId*10+1);
-				console.log(options.path);
 			}
 			else
 				//console.log("过期");
 				_res.reply("图书馆会话过期咯，请从新输入查询书目再试试哦~亲");
 		}
+		console.log(options);
 		//end
+	//	options.path = '/F/T1YE4KJ1XVEYR9HBEBNYY18DJKP3SKHSNEQIALLIERRCKNXGV5?func=short-jump&jump=11';
 		
 		var html = '';
 		http.get(options, function(res) {  
@@ -79,14 +76,11 @@ var wechat = {
 					//var rt_counter = 1;
 					var items = $(html).find(".items");
 					// 错误处理
-
-					console.log(items.length);
 					if(items.length == 0){
-						console.log("没有书名");
-						//_res.reply("没搜到书哟~换个名字呗");
+						//console.log("没有书名");
+						_res.reply("没搜到书哟~换个名字呗");
 					}
 					var tmpBookSession = wechat.getSessionFromHtml(html);
-					//console.log(isNextPage);
 					if(isNextPage){
 							session.saveNextPage(fromUserName , tmpBookSession);
 					}
@@ -133,7 +127,8 @@ var wechat = {
 							
 					});
 						_res.reply(rt_obj);
-						//console.log(rt_obj);
+					//console.log(rt_obj);
+
 			});  
 		});
 	},
@@ -241,3 +236,16 @@ var wechat = {
 	}
 }
 module.exports = wechat;
+
+
+/*
+wechat.fetch("11", "python", "");
+var t = 0;
+setInterval(function(){
+	if(t ++ == 0){
+		wechat.fetch("11", "下一页", "");
+		console.log("delay");
+	}
+}, 5000);
+*/
+//session.testLogSession();

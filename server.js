@@ -39,6 +39,7 @@ process.on('uncaughtException', function (err) {
 });
 
 
+
 app.post("/wechat", wechat('iLibrary', wechat.text(function (message, req, res, next) {
 		//res.reply(message.Content);
 		console.log("wechat in");
@@ -48,9 +49,6 @@ app.post("/wechat", wechat('iLibrary', wechat.text(function (message, req, res, 
 			book.fetch(message.FromUserName, message.Content , res);
 	})
 ));
-
-
-
 
 
 app.get('/detail/:url', function(req, res){
