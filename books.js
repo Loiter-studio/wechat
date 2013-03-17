@@ -60,7 +60,7 @@ var wechat = {
 			}
 			else
 				//console.log("过期");
-				_res.reply("图书馆会话过期咯，请从新输入查询书目再试试哦~亲");
+				_res.reply("我们不记得您搜过什么书了，请从新输入查询书目再试试哦~亲");
 		}
 		//console.log(options);
 		//end
