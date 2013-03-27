@@ -53,14 +53,16 @@ var wechat = {
 		if (book_name == '下一页') {
 			isNextPage = true;
 			var theBookSession = session.getBookSession(fromUserName);
-			//console.log(theBookSession);
+			console.log(theBookSession);
 			if(theBookSession)
 			{
 				options.path = '/F/'+ theBookSession.bookSession + '?func=short-jump&jump='+(theBookSession.pageId*10+1);
 			}
-			else
-				//console.log("过期");
+			else {
+				console.log("过期");
 				_res.reply("我们不记得您搜过什么书了，请从新输入查询书目再试试哦~亲");
+				return ;
+			}
 		}
 		//console.log(options);
 		//end
