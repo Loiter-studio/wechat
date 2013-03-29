@@ -31,13 +31,8 @@ $.ajax({
 	type: 'post',
 	url: window.location.pathname,
 	success: function(data){
-		console.log(data);
-	/*
-		var data = eval("(" + data + ")"); 
-		
-		var new_image = $('<img style="display:hidden" src="/thumbs/' + data.image_name + '" />');
-
-		//var new_image = $('<img style="display:hidden" src="http://api2.sysujwxt.com/cover?isbn=978-7-5121-1257-5"/>');
+		var data = eval("(" + data + ")");
+		var new_image = $('<img style="display:hidden" src="http://api2.sysujwxt.com/cover?isbn="'+data.isbn+'/>');
 		new_image.load(function(){
 			$("#left img").remove();
 			$("#left").append(new_image);
@@ -46,15 +41,23 @@ $.ajax({
 		$("#right").append('<p id="a">' + data.pin + '</p>');
 		$("#right").append('<p id="b">' + data.author + '</p>');
 		$("#right").append('<p id="c">' + data.publish + '</p>');
-		$("#right").append('<p id="d">' + data.price + '</p>');
+		//$("#right").append('<p id="d">' + data.price + '</p>');
 		$("#right").append('<p id="d">' + data.isbn + '</p>');
 		
 		var status = data.status;
+		console.log(status);
 		for(var i = 0; i < status.length; i++){
-			$("#status").append('<p class="f">'+status[i].status+' '+status[i].rt_date+' '+status[i].location+' '+status[i].type+'</p>');
+			if(status[i]['loan-status']){
+				status[i]['loan-status'] = "借出";
+			}
+			else {
+				status[i]['loan-status'] = "在馆";
+				status[i]['loan-due-date'] = "";
+			}
+			$("#status").append('<p class="f">'+status[i]['loan-status']+' '+status[i]['loan-due-date']+' '+status[i]['sub-library']+' '+status[i].description+'</p>');
+			//$("#status").append('<p class="f">'+status[i].status+' '+status[i].rt_date+' '+status[i].location+' '+status[i].type+'</p>');
 		}
 		$("#g").append('<p>'+data.summary+'</p>');
-	*/
 	}
 });
 </script>

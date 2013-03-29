@@ -94,14 +94,46 @@ var wechat = {
 				picurl: '',
 				title: '',
 			};
-			book.url = "http://lib.sysujwxt.com/detail/"+isbn+"-"+set_number+"-"+sequence;
+			book.url = "http://lib.sysujwxt.com/detail/"+isbn+"-"+set_number+"-"+sequence+"-"+books[i].doc_number;
 			book.picurl = "http://api2.sysujwxt.com/v1/cover?isbn=" + isbn;
 			book.title = books[i].title + " " + books[i].index;
 			rt_obj.push(book);
 		}
 		_res.reply(rt_obj);
 		return ;
-	}
+	},
+	detail: function(url, res){
+		var _res = res;
+		var values = url.split("-");
+		var book = "";
+		var status = "";
+		var rt_obj = {};
+		
+		var detail_url = "http://api2.sysujwxt.com/v1/search_result?set_number="+values[1]+"&set_entry="+values[2]
+		http.get(detail_url, function(res){
+			res.on('data', function(data){
+				book += data;
+			}).on('end', function(){
+				http.get("http://api2.sysujwxt.com/v1/status?doc_number="+values[3], function(res){
+					res.on('data', function(data){
+						status += data;
+					}).on('end', function(){
+						book = JSON.parse(book).books[0];
+						rt_obj.pin = book.index;
+						rt_obj.author = book.author;
+						rt_obj.publish = book.press;
+						rt_obj.isbn = book.isbn;
+						rt_obj.summary = book.intro;
+						
+						rt_obj.status = JSON.parse(status).status;
+						
+						console.log(status);
+						_res.end(JSON.stringify(rt_obj));
+					});
+				});
+			});
+		});
+	},
 }
 //wechat.fetch("","ruby","");
 module.exports = wechat;
