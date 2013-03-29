@@ -105,7 +105,8 @@ var wechat = {
 						image.url = $.trim($(_this).find("img").attr("src"));
 						var image_name = image.save();
 						var picurl = "http://lib.sysujwxt.com/thumbs/" + image_name;
-						
+						//var picurl = "http://api2.sysujwxt.com/cover?isbn=978-7-5121-1257-5"
+
 						var url = itemtitle.find("a").attr('href');
 						url = url.substring(86, url.length-11).split("&");
 						var set_number = url[1].split("=")[1];

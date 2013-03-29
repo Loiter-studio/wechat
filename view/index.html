@@ -35,6 +35,8 @@ $.ajax({
 		console.log(data);
 		
 		var new_image = $('<img style="display:hidden" src="/thumbs/' + data.image_name + '" />');
+
+		//var new_image = $('<img style="display:hidden" src="http://api2.sysujwxt.com/cover?isbn=978-7-5121-1257-5"/>');
 		new_image.load(function(){
 			$("#left img").remove();
 			$("#left").append(new_image);
