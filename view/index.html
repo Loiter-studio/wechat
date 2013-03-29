@@ -31,8 +31,9 @@ $.ajax({
 	type: 'post',
 	url: window.location.pathname,
 	success: function(data){
-		var data = eval("(" + data + ")"); 
 		console.log(data);
+	/*
+		var data = eval("(" + data + ")"); 
 		
 		var new_image = $('<img style="display:hidden" src="/thumbs/' + data.image_name + '" />');
 
@@ -53,6 +54,7 @@ $.ajax({
 			$("#status").append('<p class="f">'+status[i].status+' '+status[i].rt_date+' '+status[i].location+' '+status[i].type+'</p>');
 		}
 		$("#g").append('<p>'+data.summary+'</p>');
+	*/
 	}
 });
 </script>
