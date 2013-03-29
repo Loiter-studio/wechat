@@ -41,7 +41,10 @@ var wechat = {
 							books += data;
 						}).on('end', function(){
 							books = JSON.parse(books).books;
-							wechat.reply(books, detail_url, _res);
+							if(books.length > 0)
+								wechat.reply(books, detail_url, _res);
+							else
+								_res.reply("没有找到你要的书呀 > <");
 						});
 					});
 				});
@@ -49,6 +52,7 @@ var wechat = {
 		}else {
 			// bookSession保存的是书的detail_url
 			var bookSession = session.getBookSession(fromUserName);
+			//console.log(bookSession);
 			if(bookSession)
 			{
 				// 通过设置set-entry来判断下一页
@@ -58,7 +62,12 @@ var wechat = {
 						books += data;
 					}).on('end', function(){
 						books = JSON.parse(books).books;
-						wechat.reply(books, detail_url, entry['set_number'], _res);
+						if(books.length > 0){
+							wechat.reply(books, detail_url, _res);
+						}
+						else {
+							_res.reply("没有下一页了哦亲~");
+						}
 					});
 				});
 			}

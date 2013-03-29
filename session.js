@@ -50,7 +50,9 @@ var sessionManagement = {
 		if(index != 1000){
 			sessions[index].pageId +=1;
 		}
-		return bookSession + (sessions[index].pageId-1)*10+1 + "-" + sessions[index].pageId*10;
+		var start = 1+(sessions[index].pageId-1)*10;
+		var end = sessions[index].pageId*10;
+		return bookSession.bookSession + start + "-" + end;
 	},
 	getBookSession: function(userName){
 		var index = sessionManagement.getIndexOfUser(userName);
