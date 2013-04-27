@@ -32,7 +32,7 @@ $.ajax({
 	url: window.location.pathname,
 	success: function(data){
 		var data = eval("(" + data + ")");
-		var new_image = $('<img style="display:hidden" src="http://api2.sysujwxt.com/cover?isbn='+data.isbn+'"/>');
+		var new_image = $('<img style="display:hidden" src="http://libapi.opensysu.org/v1/cover?isbn='+data.isbn+'"/>');
 		console.log(new_image);
 		new_image.load(function(){
 			$("#left img").remove();

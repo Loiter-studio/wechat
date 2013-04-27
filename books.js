@@ -26,13 +26,13 @@ var wechat = {
 		var books = "";
 
 		if (book_name != '下一页') {
-			var search_url = "http://api2.sysujwxt.com/v1/search_result_entry?name=" + book_name;
+			var search_url = "http://libapi.opensysu.org/v1/search_result_entry?name=" + book_name;
 			http.get(search_url, function(res) {  
 				res.on('data', function(data) {  
 					entry += data;
 				}).on('end', function() {
 					entry = JSON.parse(entry).entry;
-					var detail_url = "http://api2.sysujwxt.com/v1/search_result?set_number="+entry['set_number']+"&set_entry=";
+					var detail_url = "http://libapi.opensysu.org/v1/search_result?set_number="+entry['set_number']+"&set_entry=";
 					detail_url = session.saveNewSession(fromUserName, detail_url);
 					
 					// 判断需要书籍是第几本
@@ -95,7 +95,7 @@ var wechat = {
 				title: '',
 			};
 			book.url = "http://lib.sysujwxt.com/detail/"+isbn+"-"+set_number+"-"+sequence+"-"+books[i].doc_number;
-			book.picurl = "http://api2.sysujwxt.com/v1/cover?isbn=" + isbn;
+			book.picurl = "http://libapi.opensysu.org/v1/cover?isbn=" + isbn;
 			book.title = books[i].title + " " + books[i].index;
 			rt_obj.push(book);
 		}
@@ -109,12 +109,12 @@ var wechat = {
 		var status = "";
 		var rt_obj = {};
 		
-		var detail_url = "http://api2.sysujwxt.com/v1/search_result?set_number="+values[1]+"&set_entry="+values[2]
+		var detail_url = "http://libapi.opensysu.org/v1/search_result?set_number="+values[1]+"&set_entry="+values[2]
 		http.get(detail_url, function(res){
 			res.on('data', function(data){
 				book += data;
 			}).on('end', function(){
-				http.get("http://api2.sysujwxt.com/v1/status?doc_number="+values[3], function(res){
+				http.get("http://libapi.opensysu.org/v1/status?doc_number="+values[3], function(res){
 					res.on('data', function(data){
 						status += data;
 					}).on('end', function(){
