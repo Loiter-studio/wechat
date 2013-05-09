@@ -39,11 +39,11 @@ $.ajax({
 			$("#left").append(new_image);
 		});
 
-		$("#right").append('<p id="a">' + data.pin + '</p>');
-		$("#right").append('<p id="b">' + data.author + '</p>');
-		$("#right").append('<p id="c">' + data.publish + '</p>');
+		$("#right").append('<p id="a">分类号：' + data.pin + '</p>');
+		$("#right").append('<p id="b">作者：' + data.author + '</p>');
+		$("#right").append('<p id="c">出版社：' + data.publish + '</p>');
 		//$("#right").append('<p id="d">' + data.price + '</p>');
-		$("#right").append('<p id="d">' + data.isbn + '</p>');
+		$("#right").append('<p id="d">isbn：' + data.isbn + '</p>');
 		
 		var status = data.status;
 		console.log(status);
