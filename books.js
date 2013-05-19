@@ -24,8 +24,26 @@ var wechat = {
 		 */
 		var entry = "";
 		var books = "";
+		var feedback = /@[^]*/;
+		if(book_name == '?') {
+			res.reply("输入\'1\'-------查看操作教程\n
+					   输入\'2\'-------查看图书馆开放时间\n
+				       如需反馈请输入\'@反馈内容\'\n
+				       搜索书籍直接输入书名");
+		}
 
-		if (book_name != '下一页') {
+		else if(feedback.test(book_name)) {
+			return ;
+		}
+		else if(book_name == '1') {
+			res.reply("搜书请输入书名/作者/isbn\n
+				       继续查找请输入下一页\n
+				       如需帮助请输入\'?\'");
+		}
+		else if(book_name == '2'){
+			res.reply("http://www.library.sysu.edu.cn/web/guest/openinghours");
+		}
+		else if (book_name != '下一页') {
 			var search_url = "http://libapi.opensysu.org/v1/search_result_entry?name=" + book_name;
 			http.get(search_url, function(res) {  
 				res.on('data', function(data) {  
