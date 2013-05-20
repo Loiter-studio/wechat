@@ -19,12 +19,12 @@ app.post("/wechat", wechat('iLibrary',
 	wechat.text(function (message, req, res, next) {
 		console.log("in"+message.Content);
 		if(message.Content == 'Hello2BizUser')
-			res.reply("欢迎使用，请输入想要查找的关键字,需要查询更多请输入关键字\"下一页\".如果您在使用过程中出现了bug,烦请您用文字或截图反馈给我们.p.s暂不支持语音搜索w");
+			res.reply("欢迎使用，请输入想要查找的关键字,需要查询更多请输入关键字\"下一页\".如果您在使用过程中出现了bug,烦请您用文字或截图反馈给我们.p.s暂不支持语音搜索w,如需帮助请输入\'?\'");
 		else
 			book.fetch(message.FromUserName, message.Content , res);
 	}).event(function(message, req, res, next){
 		if(message.Event = "subscribe"){
-			res.reply("欢迎使用，请输入想要查找的关键字,需要查询更多请输入关键字\"下一页\".如果您在使用过程中出现了bug,烦请您用文字或截图反馈给我们.p.s暂不支持语音搜索w");
+			res.reply("欢迎使用，请输入想要查找的关键字,需要查询更多请输入关键字\"下一页\".如果您在使用过程中出现了bug,烦请您用文字或截图反馈给我们.p.s暂不支持语音搜索w,如需帮助请输入\'?\'");
 		}
 	})
 ));
@@ -45,3 +45,4 @@ app.get('/css/:url', function(req, res){
 http.createServer(app).listen(app.get('port'), function(){
 	console.log("listen 3000");
 });
+

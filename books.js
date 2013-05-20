@@ -26,19 +26,14 @@ var wechat = {
 		var books = "";
 		var feedback = /@[^]*/;
 		if(book_name == '?') {
-			res.reply("输入\'1\'-------查看操作教程\n
-					   输入\'2\'-------查看图书馆开放时间\n
-				       如需反馈请输入\'@反馈内容\'\n
-				       搜索书籍直接输入书名");
+			res.reply("输入\'1\'-------查看操作教程\n输入\'2\'-------查看图书馆开放时间\n如需反馈请输入\'@反馈内容\'\n搜索书籍直接输入书名");
 		}
 
 		else if(feedback.test(book_name)) {
 			return ;
 		}
 		else if(book_name == '1') {
-			res.reply("搜书请输入书名/作者/isbn\n
-				       继续查找请输入下一页\n
-				       如需帮助请输入\'?\'");
+			res.reply("搜书请输入书名/作者/isbn\n继续查找请输入下一页\n如需帮助请输入\'?\'");
 		}
 		else if(book_name == '2'){
 			res.reply("http://www.library.sysu.edu.cn/web/guest/openinghours");
