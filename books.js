@@ -36,7 +36,7 @@ var wechat = {
 			res.reply("搜书请输入书名/作者/isbn\n继续查找请输入下一页\n如需帮助请输入\'?\'");
 		}
 		else if(book_name == '2'){
-			res.reply("http://www.library.sysu.edu.cn/web/guest/openinghours");
+			res.reply("library.sysu.edu.cn/web/guest/openinghours");
 		}
 		else if (book_name != '下一页') {
 			var search_url = "http://libapi.opensysu.org/v1/search_result_entry?name=" + book_name;
