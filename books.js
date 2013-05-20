@@ -24,8 +24,8 @@ var wechat = {
 		 */
 		var entry = "";
 		var books = "";
-		var feedback = /@[^]*/;
-		if(book_name == '?') {
+		var feedback = /@|@[^]*/;
+		if(book_name == '?' || book_name == '？') {
 			res.reply("输入\'1\'-------查看操作教程\n输入\'2\'-------查看图书馆开放时间\n如需反馈请输入\'@反馈内容\'\n搜索书籍直接输入书名");
 		}
 
