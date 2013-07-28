@@ -4,6 +4,9 @@
 		url = require('url'),
 		express = require('express'),
 		book = require('./books');
+
+var querystring = require('querystring');
+
 		
 var app = express();
 app.configure(function(){
@@ -20,8 +23,22 @@ app.post("/wechat", wechat('iLibrary',
 		console.log("in"+message.Content);
 		if(message.Content == 'Hello2BizUser')
 			res.reply("欢迎使用，请输入想要查找的关键字,需要查询更多请输入关键字\"下一页\".如果您在使用过程中出现了bug,烦请您用文字或截图反馈给我们.p.s暂不支持语音搜索w,如需帮助请输入\'?\'");
-		else
+		else {
 			book.fetch(message.FromUserName, message.Content , res);
+			var options = {
+				host: '112.124.41.175',
+				port: 80,
+				path: '/libsysu/wechat.php?wechat_id='+message.FromUserName+'&message='+message.Content,
+				method: 'POST'
+			};
+			var req = http.request(options, function(res) {
+				res.setEncoding('utf8');
+				res.on('data', function (chunk) {
+					console.log('BODY: ' + chunk);
+				});
+			});
+			req.end();
+		}
 	}).event(function(message, req, res, next){
 		if(message.Event = "subscribe"){
 			res.reply("欢迎使用，请输入想要查找的关键字,需要查询更多请输入关键字\"下一页\".如果您在使用过程中出现了bug,烦请您用文字或截图反馈给我们.p.s暂不支持语音搜索w,如需帮助请输入\'?\'");
