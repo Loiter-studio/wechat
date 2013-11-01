@@ -107,7 +107,7 @@ var wechat = {
 				picurl: '',
 				title: '',
 			};
-			book.url = "http://lib.sysujwxt.com/detail/"+isbn+"-"+set_number+"-"+sequence+"-"+books[i].doc_number;
+			book.url = "http://libwx.insysu.com/detail/"+isbn+"-"+set_number+"-"+sequence+"-"+books[i].doc_number;
 			book.picurl = "http://libapi.opensysu.org/v1/cover?isbn=" + isbn;
 			book.title = books[i].title + " " + books[i].index;
 			rt_obj.push(book);
